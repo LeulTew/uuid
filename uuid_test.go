@@ -242,7 +242,7 @@ func TestTimestampFromV1(t *testing.T) {
 	}
 	for _, tt := range tests {
 		if !tt.wanterr {
-			checkTimestampUUID(t, tt.u, V1)
+			checkUUIDVersionAndVariant(t, tt.u, V1)
 		}
 		got, goterr := TimestampFromV1(tt.u)
 		if tt.wanterr && goterr == nil {
@@ -267,7 +267,7 @@ func TestTimestampFromV6(t *testing.T) {
 
 	for _, tt := range tests {
 		if !tt.wanterr {
-			checkTimestampUUID(t, tt.u, V6)
+			checkUUIDVersionAndVariant(t, tt.u, V6)
 		}
 		got, err := TimestampFromV6(tt.u)
 
@@ -298,7 +298,7 @@ func TestTimestampFromV7(t *testing.T) {
 	}
 	for _, tt := range tests {
 		if !tt.wanterr {
-			checkTimestampUUID(t, tt.u, V7)
+			checkUUIDVersionAndVariant(t, tt.u, V7)
 		}
 		got, err := TimestampFromV7(tt.u)
 
@@ -332,7 +332,7 @@ func TestMinMaxTimestamps(t *testing.T) {
 		{u: Must(FromString("ffffffff-ffff-7fff-bfff-ffffffffffff")), version: V7, want: time.Date(10889, 8, 2, 5, 31, 50, 655000000, time.UTC)}, //10889-08-02 5:31:50.655 (UTC)
 	}
 	for _, tt := range tests {
-		checkTimestampUUID(t, tt.u, tt.version)
+		checkUUIDVersionAndVariant(t, tt.u, tt.version)
 
 		var got Timestamp
 		var err error
@@ -367,7 +367,7 @@ func TestMinMaxTimestamps(t *testing.T) {
 	}
 }
 
-func checkTimestampUUID(t *testing.T, u UUID, version byte) {
+func checkUUIDVersionAndVariant(t *testing.T, u UUID, version byte) {
 	t.Helper()
 	if got := u.Version(); got != version {
 		t.Errorf("%v.Version() == %d, want %d", u, got, version)
